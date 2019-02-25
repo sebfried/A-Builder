@@ -1,0 +1,39 @@
+
+// /*==============================================================================
+// GLOBAL VARIABLES
+// ==============================================================================*/
+
+color-base-yellow = #fde74c
+color-base-green = #9bc53d
+color-base-blue = #5bc0eb
+color-base-red = #e55934
+color-base-orange = #fa7921
+color-base-black = #111
+color-base-white = #eee
+
+// /*==============================================================================
+// PAGE
+// ==============================================================================*/
+
+body
+	width 100%
+	color color-base-black
+
+.standard
+	width 100%
+	margin-left 0
+
+// /*==============================================================================
+// TRANSITION FRAMEWORK
+// ==============================================================================*/
+.transition
+	&.all
+		transition-property all
+	&.left
+		transition-property left
+	&.ms600
+		transition-duration 600ms
+	&.ms6000
+		transition-duration 6000ms
+	&.ease
+		transition-timing-function  ease

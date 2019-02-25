@@ -1,0 +1,68 @@
+{
+  "name": "a-builder",
+  "version": "1.2.1",
+  "description": "A HTML5 Frontend Builder",
+  "author": "Sebastian W. Friedrich",
+  "license": "EUPL-1.2",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sebfried/A-Builder.git"
+  },
+  "scripts": {
+    "test": "concurrently npm:vendor-css npm:watch-stylus npm:watch-coffee npm:watch-pug-cli npm:browser-sync-test",
+    "build": "npm-run-all vendor-css stylus coffee pug-cli www-dist browser-sync-build",
+    "browser-sync-build": "browser-sync start --server --files 'www/*.html' --browser 'google chrome' --startPath 'www'",
+    "www-dist": "npm-run-all rm-www-all minifier ncp-img ncp-font",
+    "rm-www-all": "rimraf www/*",
+    "minifier": "html-minifier --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --use-short-doctype --minify-css true --minify-js true --input-dir source --output-dir www --file-ext html",
+    "ncp-img": "ncp source/img www/img",
+    "ncp-font": "ncp source/font www/font",
+    "pug-cli": "pug source/*.pug source/src/4xx/*.pug --pretty --basedir source",
+    "stylus": "stylus source/css/*.styl source/src/4xx/*.styl && npm run pug-cli",
+    "coffee": "coffee --compile source/js && npm run pug-cli",
+    "vendor-css": "npm-run-all normalize-css animate-css bootstrap-css",
+    "normalize-css": "ncp node_modules/normalize.css/normalize.css source/css/_normalize.css",
+    "animate-css": "ncp node_modules/animate.css/animate.css source/css/_animate.css",
+    "bootstrap-css": "ncp node_modules/bootstrap/dist/css/bootstrap.css source/css/_bootstrap.css",
+    "stop": "echo 'Trying Linux/Unix Shell Command: killall node' && killall node",
+    "browser-sync-test": "browser-sync start --server --files 'source/*.html' --browser 'google chrome' --startPath 'source'",
+    "watch-pug-cli": "npm-watch pug-cli",
+    "watch-stylus": "npm-watch stylus",
+    "watch-coffee": "npm-watch coffee"
+  },
+  "devDependencies": {
+    "animate.css": "^3.7.0",
+    "bootstrap": "^4.3.1",
+    "browser-sync": "^2.26.3",
+    "coffeescript": "^2.3.2",
+    "concurrently": "^4.1.0",
+    "html-minifier": "^3.5.21",
+    "ncp": "^2.0.0",
+    "normalize.css": "^8.0.1",
+    "npm-run-all": "^4.1.5",
+    "npm-watch": "^0.6.0",
+    "pug-cli": "^1.0.0-alpha6",
+    "rimraf": "^2.6.3",
+    "stylus": "^0.54.5"
+  },
+  "watch": {
+    "stylus": {
+      "patterns": [
+        "source"
+      ],
+      "extensions": "styl"
+    },
+    "pug-cli": {
+      "patterns": [
+        "source"
+      ],
+      "extensions": "pug"
+    },
+    "coffee": {
+      "patterns": [
+        "source"
+      ],
+      "extensions": "coffee"
+    }
+  }
+}
