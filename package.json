@@ -19,7 +19,7 @@
     "ncp-font": "ncp source/font www/font",
     "pug-cli": "pug source/*.pug source/src/4xx/*.pug --pretty --basedir source",
     "stylus": "stylus source/css/*.styl source/src/4xx/*.styl && npm run pug-cli",
-    "coffee": "coffee --compile source/js && npm run pug-cli",
+    "coffee": "coffee --compile source && npm run pug-cli",
     "vendor-css": "npm-run-all normalize-css animate-css bootstrap-css",
     "normalize-css": "ncp node_modules/normalize.css/normalize.css source/css/_normalize.css",
     "animate-css": "ncp node_modules/animate.css/animate.css source/css/_animate.css",
