@@ -5,16 +5,17 @@ html(lang='en')
 		title A-Builder
 		meta(name='description', content='A www Frontend Builder')
 		meta(name='viewport', content='width=device-width, initial-scale=1.0')
-		style(id='normalize.css')
-			include css/_normalize.css
-		style(id='animate.css')
-			include css/_animate.css
-		style(id='bootstrap.css')
+		//- style
+		//- 	include css/_normalize.css
+		//- Included in _bootstrap.css
+		style
 			include css/_bootstrap.css
-		style(id='browser-sync.css')
+		style
+			include css/_animate.css
+		style
 			include css/browser-sync.css
-		style(id='index.css')
-			include css/index.css 
+		style
+			include css/index.css
 	body
 		include src/index/indexNav.pug
 		include src/index/indexHeader.pug
