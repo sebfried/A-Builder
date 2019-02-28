@@ -15,9 +15,6 @@ body {
 .transition.ms600 {
   transition-duration: 600ms;
 }
-.transition.ms6000 {
-  transition-duration: 6000ms;
-}
 .transition.ease {
   transition-timing-function: ease;
 }
@@ -44,13 +41,6 @@ nav.standard a {
 }
 nav.standard a:hover {
   color: #9bc53d;
-}
-nav.standard .navbtn {
-  position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
 }
 input.hidden {
   display: none;
