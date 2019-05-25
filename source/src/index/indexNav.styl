@@ -3,7 +3,6 @@ nav.standard
 	height 100%
 	left -400px
 	background-color color-base-white
-	background-image url(img/bg-cookie.jpg)
 	background-size 600px
 	background-repeat repeat
 	position fixed
@@ -24,6 +23,25 @@ nav.standard
 		right 25px
 		font-size 36px
 		margin-left 50px
+
+.img-container
+	background-image url(img/bg-cookie-blur.jpg)
+	background-size 100%
+	background-repeat repeat
+	width 300px
+	height 200px
+	overflow hidden
+	margin 10px
+
+img
+	opacity 0
+	width 100%
+	vertical-align center
+img.initial, img.loaded, img.error
+	opacity 1
+
+img:not(.initial)
+	transition opacity 1s
 
 input.hidden
 	display none

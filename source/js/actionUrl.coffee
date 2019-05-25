@@ -1,4 +1,3 @@
-
 # CSS Animation Checkbox URL Parameter Action CACUPA
 actionUrl = (inputName, urlParameterName) ->
 
@@ -66,4 +65,4 @@ actionUrl = (inputName, urlParameterName) ->
 		, 0  # Lucky Quickfix
 
 # Call CACUPA
-actionUrl('animate', 'state')
+actionUrl('animate', 'party')

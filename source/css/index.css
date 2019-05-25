@@ -1,3 +1,71 @@
+#__bs_notify__ {
+  top: auto !important;
+  bottom: 0 !important;
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 0 !important;
+  color: #fff !important;
+  width: 100% !important;
+  background-color: #32cd32 !important;
+  animation-name: browsersync-notification !important;
+  animation-duration: 2000ms !important;
+  animation-timing-function: ease !important;
+}
+@-moz-keyframes browsersync-notification {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes browsersync-notification {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-o-keyframes browsersync-notification {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes browsersync-notification {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 body {
   width: 100%;
   color: #111;
@@ -15,15 +83,23 @@ body {
 .transition.ms600 {
   transition-duration: 600ms;
 }
+.transition.ms6000 {
+  transition-duration: 6000ms;
+}
 .transition.ease {
   transition-timing-function: ease;
+}
+.noscript img {
+  opacity: 1;
+}
+.noscript img[data-src] {
+  display: none;
 }
 nav.standard {
   width: 400px;
   height: 100%;
   left: -400px;
   background-color: #eee;
-  background-image: url("img/bg-cookie.jpg");
   background-size: 600px;
   background-repeat: repeat;
   position: fixed;
@@ -41,6 +117,35 @@ nav.standard a {
 }
 nav.standard a:hover {
   color: #9bc53d;
+}
+nav.standard .navbtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+.img-container {
+  background-image: url("img/bg-cookie-blur.jpg");
+  background-size: 100%;
+  background-repeat: repeat;
+  width: 300px;
+  height: 200px;
+  overflow: hidden;
+  margin: 10px;
+}
+img {
+  opacity: 0;
+  width: 100%;
+  vertical-align: center;
+}
+img.initial,
+img.loaded,
+img.error {
+  opacity: 1;
+}
+img:not(.initial) {
+  transition: opacity 1s;
 }
 input.hidden {
   display: none;
@@ -97,3 +202,4 @@ footer.standard {
   height: 40px;
   background-color: #5bc0eb;
 }
+/*# sourceMappingURL=css/index.css.map */

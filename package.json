@@ -9,25 +9,26 @@
     "url": "git+https://github.com/sebfried/A-Builder.git"
   },
   "scripts": {
-    "test": "npm-run-all vendor-css && concurrently npm:watch-stylus npm:watch-coffee npm:watch-pug-cli npm:browser-sync-test",
-    "build": "npm-run-all vendor-css stylus coffee purgecss pug-cli www-dist browser-sync-build",
+    "test": "npm-run-all vendor && concurrently npm:watch-stylus npm:watch-coffee npm:watch-pug-cli npm:browser-sync-test",
+    "build": "npm-run-all vendor stylus coffee purgecss pug-cli www-dist browser-sync-build",
     "browser-sync-build": "browser-sync start --server --browser 'google chrome' --startPath 'www'",
     "www-dist": "npm-run-all rm-www-all minifier ncp-img ncp-font",
     "rm-www-all": "rimraf www/*",
-    "clean-normalize": "cleancss -O1 'specialComments:0' source/css/_normalize.css --output source/css/_normalize.css",
-    "clean-bootstrap": "cleancss -O1 'specialComments:0' source/css/_bootstrap.css --output source/css/_bootstrap.css",
-    "clean-animate": "cleancss -O1 'specialComments:0' source/css/_animate.css --output source/css/_animate.css",
     "purgecss": "purgecss --out source/css --config source/config/purgecss.config.js",
     "minifier": "html-minifier  --input-dir source --output-dir www --file-ext html --collapse-whitespace --remove-comments --remove-redundant-attributes --remove-script-type-attributes --use-short-doctype --minify-js true --minify-css true",
     "ncp-img": "ncp source/img www/img",
     "ncp-font": "ncp source/font www/font",
     "pug-cli": "pug source/*.pug source/src/4xx/*.pug --pretty --basedir source",
-    "stylus": "stylus source/css/*.styl source/src/4xx/*.styl && npm run pug-cli",
+    "stylus": "stylus source/css/*.styl source/src/4xx/*.styl --sourcemap --sourcemap-base ./source --sourcemap-root ../ && npm run pug-cli",
     "coffee": "coffee --compile source && npm run pug-cli",
-    "vendor-css": "npm-run-all normalize-css clean-normalize animate-css clean-animate bootstrap-css clean-bootstrap",
+    "vendor": "npm-run-all lazyload-js normalize-css clean-normalize animate-css clean-animate bootstrap-css clean-bootstrap",
     "normalize-css": "ncp node_modules/normalize.css/normalize.css source/css/_normalize.css",
     "animate-css": "ncp node_modules/animate.css/animate.css source/css/_animate.css",
     "bootstrap-css": "ncp node_modules/bootstrap/dist/css/bootstrap.css source/css/_bootstrap.css",
+    "lazyload-js": "ncp /Users/sebastian/advice.land/A-Builder/node_modules/vanilla-lazyload/dist/lazyload.js source/js/lazyload.js",
+    "clean-normalize": "cleancss -O1 'specialComments:0' source/css/_normalize.css --output source/css/_normalize.css",
+    "clean-bootstrap": "cleancss -O1 'specialComments:0' source/css/_bootstrap.css --output source/css/_bootstrap.css",
+    "clean-animate": "cleancss -O1 'specialComments:0' source/css/_animate.css --output source/css/_animate.css",
     "stop": "echo 'Trying Linux/Unix Shell Command: killall node' && killall node",
     "browser-sync-test": "browser-sync start --server --files 'source/*.html' --browser 'google chrome' --startPath 'source'",
     "watch-pug-cli": "npm-watch pug-cli",
@@ -38,10 +39,10 @@
   "devDependencies": {
     "animate.css": "^3.7.0",
     "bootstrap": "^4.3.1",
-    "browser-sync": "^2.26.3",
+    "browser-sync": "^2.26.5",
     "clean-css": "^4.2.1",
-    "clean-css-cli": "^4.2.1",
-    "coffeescript": "^2.3.2",
+    "clean-css-cli": "^4.3.0",
+    "coffeescript": "^2.4.1",
     "concurrently": "^4.1.0",
     "html-minifier": "^3.5.21",
     "ncp": "^2.0.0",
@@ -49,9 +50,10 @@
     "npm-run-all": "^4.1.5",
     "npm-watch": "^0.6.0",
     "pug-cli": "^1.0.0-alpha6",
-    "purgecss": "^1.1.0",
+    "purgecss": "^1.3.0",
     "rimraf": "^2.6.3",
-    "stylus": "^0.54.5"
+    "stylus": "^0.54.5",
+    "vanilla-lazyload": "^12.0.0"
   },
   "watch": {
     "stylus": {
@@ -74,7 +76,7 @@
     }
   },
   "dependencies": {
-    "jquery": "^3.3.1",
-    "popper.js": "^1.14.7"
+    "jquery": "^3.4.1",
+    "popper.js": "^1.15.0"
   }
 }
