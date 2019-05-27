@@ -1,5 +1,5 @@
 module.exports = {
-	content: ['source/index.pug', 'source/src/index/*.pug'],
+	content: ['source/index.pug', 'source/src/index/*.pug', 'source/js/*.js'],
 	css: ['source/css/*.css'],
 	keyframes: true,
 	fontFace: true,

@@ -8,23 +8,23 @@ window.onload = function() {
 		);
 	}
 	var callback_enter = function(element) {
-		logElementEvent("🔑 ENTERED", element);
+		logElementEvent("ENTERED", element);
 	};
 	var callback_exit = function(element) {
-		logElementEvent("🚪 EXITED", element);
+		logElementEvent("EXITED", element);
 	};
 	var callback_reveal = function(element) {
-		logElementEvent("👁️ REVEALED", element);
+		logElementEvent("REVEALED", element);
 	};
 	var callback_loaded = function(element) {
-		logElementEvent("👍 LOADED", element);
+		logElementEvent("LOADED", element);
 	};
 	var callback_error = function(element) {
-		logElementEvent("💀 ERROR", element);
+		logElementEvent("ERROR", element);
 		element.src = "";
 	};
 	var callback_finish = function() {
-		logElementEvent("✔️ FINISHED", document.documentElement);
+		logElementEvent("FINISHED", document.documentElement);
 	};
 	var ll = new LazyLoad({
 		threshold: 0,
@@ -40,4 +40,7 @@ window.onload = function() {
 		elements_selector: ".lazy"
 		// ... more custom settings?
 	});
+	if (ll) {
+		ll.update();
+	}
 };
