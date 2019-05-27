@@ -39,6 +39,26 @@ body
 		transition-timing-function  ease
 
 // /*==============================================================================
+// LAZY IMAGES
+// ==============================================================================*/
+
+.img-container
+	background-size 100%
+	background-repeat repeat
+	overflow hidden
+	margin 10px
+
+img
+	opacity 0
+	width 100%
+
+img.initial, img.loaded, img.error
+	opacity 1
+
+img:not(.initial)
+	transition opacity 1s
+
+// /*==============================================================================
 // 	NOSCRIPT
 // ==============================================================================*/
 .noscript img 

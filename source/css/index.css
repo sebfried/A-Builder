@@ -18,6 +18,24 @@ body {
 .transition.ease {
   transition-timing-function: ease;
 }
+.img-container {
+  background-size: 100%;
+  background-repeat: repeat;
+  overflow: hidden;
+  margin: 10px;
+}
+img {
+  opacity: 0;
+  width: 100%;
+}
+
+img.loaded,
+img.error {
+  opacity: 1;
+}
+img:not(.initial) {
+  transition: opacity 1s;
+}
 .noscript img {
   opacity: 1;
 }
@@ -46,27 +64,6 @@ nav.standard a {
 }
 nav.standard a:hover {
   color: #9bc53d;
-}
-.img-container {
-  background-image: url("img/bg-cookie-blur.jpg");
-  background-size: 100%;
-  background-repeat: repeat;
-  width: 300px;
-  height: 200px;
-  overflow: hidden;
-  margin: 10px;
-}
-img {
-  opacity: 0;
-  width: 100%;
-}
-
-img.loaded,
-img.error {
-  opacity: 1;
-}
-img:not(.initial) {
-  transition: opacity 1s;
 }
 input.hidden {
   display: none;
