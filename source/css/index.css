@@ -112,7 +112,12 @@ section.main.standard {
   background-color: #fde74c;
 }
 section.main.standard h1 {
-  color: color-base-text;
+  color: #333;
+  margin: 0;
+  padding: 10px;
+}
+section.main.standard h2 {
+  color: #333;
   margin: 0;
   padding: 10px;
 }
