@@ -17,4 +17,4 @@ This project uses pre-processors to generate its source code.
 
 - Install all dependencies: `npm install --no-save`
 - Start the dev server: `npm start`
-- Build the Site: `npm build`
+- Build the Site: `npm run build`
