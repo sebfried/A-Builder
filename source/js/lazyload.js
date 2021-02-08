@@ -3,7 +3,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 (function (global, factory) {
-  (typeof exports === "undefined" ? "undefined" : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : global.LazyLoad = factory();
+  (typeof exports === "undefined" ? "undefined" : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : (global = global || self, global.LazyLoad = factory());
 })(this, function () {
   'use strict';
 
@@ -20,6 +20,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     data_srcset: "srcset",
     data_sizes: "sizes",
     data_bg: "bg",
+    data_poster: "poster",
     class_loading: "loading",
     class_loaded: "loaded",
     class_error: "error",
@@ -102,6 +103,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     element.setAttribute(attrName, value);
   };
 
+  var resetWasProcessedData = function resetWasProcessedData(element) {
+    return setData(element, processedDataName, null);
+  };
+
   var setWasProcessedData = function setWasProcessedData(element) {
     return setData(element, processedDataName, trueString);
   };
@@ -130,17 +135,29 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     });
   };
 
-  var callbackIfSet = function callbackIfSet(callback, argument) {
-    if (callback) {
-      callback(argument);
+  var safeCallback = function safeCallback(callback, arg1, arg2, arg3) {
+    if (!callback) {
+      return;
     }
+
+    if (arg3 !== undefined) {
+      callback(arg1, arg2, arg3);
+      return;
+    }
+
+    if (arg2 !== undefined) {
+      callback(arg1, arg2);
+      return;
+    }
+
+    callback(arg1);
   };
 
   var updateLoadingCount = function updateLoadingCount(instance, plusMinus) {
-    instance._loadingCount += plusMinus;
+    instance.loadingCount += plusMinus;
 
-    if (instance._elements.length === 0 && instance._loadingCount === 0) {
-      callbackIfSet(instance._settings.callback_finish);
+    if (instance._elements.length === 0 && instance.loadingCount === 0) {
+      safeCallback(instance._settings.callback_finish, instance);
     }
   };
 
@@ -192,6 +209,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     sourceTags.forEach(function (sourceTag) {
       setAttributeIfValue(sourceTag, "src", getData(sourceTag, settings.data_src));
     });
+    setAttributeIfValue(element, "poster", getData(element, settings.data_poster));
     setAttributeIfValue(element, "src", getData(element, settings.data_src));
     element.load();
   };
@@ -279,7 +297,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     var element = event.target;
     removeClass(element, settings.class_loading);
     addClass(element, className);
-    callbackIfSet(callback, element);
+    safeCallback(callback, element, instance);
     updateLoadingCount(instance, -1);
   };
 
@@ -299,9 +317,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
   var managedTags = ["IMG", "IFRAME", "VIDEO"];
 
-  var onEnter = function onEnter(element, instance) {
+  var onEnter = function onEnter(element, entry, instance) {
     var settings = instance._settings;
-    callbackIfSet(settings.callback_enter, element);
+    safeCallback(settings.callback_enter, element, entry, instance);
 
     if (!settings.load_delay) {
       revealAndUnobserve(element, instance);
@@ -320,9 +338,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
   };
 
-  var onExit = function onExit(element, instance) {
+  var onExit = function onExit(element, entry, instance) {
     var settings = instance._settings;
-    callbackIfSet(settings.callback_exit, element);
+    safeCallback(settings.callback_exit, element, entry, instance);
 
     if (!settings.load_delay) {
       return;
@@ -371,8 +389,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     setSources(element, instance);
     setWasProcessedData(element);
-    callbackIfSet(settings.callback_reveal, element);
-    callbackIfSet(settings.callback_set, element);
+    safeCallback(settings.callback_reveal, element, instance);
+    safeCallback(settings.callback_set, element, instance);
   };
 
   var isIntersecting = function isIntersecting(entry) {
@@ -393,7 +411,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     instance._observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        return isIntersecting(entry) ? onEnter(entry.target, instance) : onExit(entry.target, instance);
+        return isIntersecting(entry) ? onEnter(entry.target, entry, instance) : onExit(entry.target, entry, instance);
       });
     }, getObserverSettings(instance._settings));
     return true;
@@ -428,11 +446,32 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     return purgeProcessedElements(nodeSetToArray(elements || queryElements(settings)));
   };
 
+  var retryLazyLoad = function retryLazyLoad(instance) {
+    var settings = instance._settings;
+    var errorElements = settings.container.querySelectorAll("." + settings.class_error);
+    errorElements.forEach(function (element) {
+      removeClass(element, settings.class_error);
+      resetWasProcessedData(element);
+    });
+    instance.update();
+  };
+
+  var setOnlineCheck = function setOnlineCheck(instance) {
+    if (!runningOnBrowser) {
+      return;
+    }
+
+    window.addEventListener("online", function (event) {
+      retryLazyLoad(instance);
+    });
+  };
+
   var LazyLoad = function LazyLoad(customSettings, elements) {
     this._settings = getInstanceSettings(customSettings);
-    this._loadingCount = 0;
+    this.loadingCount = 0;
     setObserver(this);
     this.update(elements);
+    setOnlineCheck(this);
   };
 
   LazyLoad.prototype = {
